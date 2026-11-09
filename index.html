@@ -807,6 +807,23 @@
                 <div style="font-family:'Cormorant Garamond',serif;font-size:24px">{{ runner.name }} →</div>
               </div>
             </div>
+            <div style="border:1px solid rgba(var(--fgrgb),0.16);padding:24px;margin-bottom:30px">
+              <sc-if value="{{ qOpen }}">
+                <div>
+                  <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Keep this result</div>
+                  <div style="display:flex;gap:10px;flex-wrap:wrap">
+                    <input onChange="{{ onQEmail }}" placeholder="you@email.com" style="flex:2;min-width:200px;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                    <input value="{{ zipValue }}" onChange="{{ onZip }}" placeholder="ZIP (optional)" style="flex:1;min-width:120px;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                    <div onClick="{{ sendQuiz }}" style="font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:15px 22px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">{{ qLabel }}</div>
+                  </div>
+                  <sc-if value="{{ hasQErr }}"><div style="font-size:13px;line-height:1.6;color:#B5533C;margin-top:10px">{{ qErr }}</div></sc-if>
+                  <div style="font-size:12px;line-height:1.6;color:rgba(var(--fgrgb),0.4);margin-top:10px">We'll email the recommendation and share it with your nearest franchise.</div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ qSent }}">
+                <div style="font-size:14.5px;line-height:1.7;color:rgba(var(--fgrgb),0.8)"><span style="color:#4C7A52;letter-spacing:0.16em;text-transform:uppercase;font-size:11px;margin-right:10px">Sent</span>Check your inbox for the recommendation.</div>
+              </sc-if>
+            </div>
             <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
               <div onClick="{{ goContact }}" style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:15px 26px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">Book a free consultation</div>
               <div onClick="{{ quizReset }}" style="font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(var(--fgrgb),0.6);cursor:pointer" style-hover="color:var(--gold)">Retake the finder</div>
@@ -1130,21 +1147,21 @@
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px">
                   <div>
                     <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">Name</div>
-                    <input placeholder="First and last" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                    <input onChange="{{ onFrName }}" placeholder="First and last" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
                   </div>
                   <div>
                     <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">City or region of interest</div>
-                    <input placeholder="Where you'd operate" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                    <input onChange="{{ onFrRegion }}" placeholder="Where you'd operate" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
                   </div>
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px">
                   <div>
                     <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">Email</div>
-                    <input placeholder="you@email.com" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                    <input onChange="{{ onFrEmail }}" placeholder="you@email.com" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
                   </div>
                   <div>
                     <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">Phone</div>
-                    <input placeholder="(000) 000-0000" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                    <input onChange="{{ onFrPhone }}" placeholder="(000) 000-0000" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
                   </div>
                 </div>
                 <div>
@@ -1157,9 +1174,10 @@
                 </div>
                 <div>
                   <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">Anything we should know?</div>
-                  <textarea rows="4" placeholder="Timeline, experience, questions for the team" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none;resize:vertical;font-family:inherit"></textarea>
+                  <textarea onChange="{{ onFrMsg }}" rows="4" placeholder="Timeline, experience, questions for the team" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none;resize:vertical;font-family:inherit"></textarea>
                 </div>
-                <div onClick="{{ frSubmit }}" style="text-align:center;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:16px 26px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">Send enquiry</div>
+                <sc-if value="{{ hasFrErr }}"><div style="font-size:13px;line-height:1.6;color:#B5533C">{{ frErr }}</div></sc-if>
+                <div onClick="{{ frSubmit }}" style="text-align:center;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:16px 26px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">{{ frSubmitLabel }}</div>
                 <div style="font-size:12px;line-height:1.6;color:rgba(var(--fgrgb),0.45)">Your details go only to the At Shades franchise development team.</div>
               </div>
             </sc-if>
@@ -1207,9 +1225,10 @@
                   </div>
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px">
-                  <input placeholder="Name" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
-                  <input placeholder="Email for the invite" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                  <input onChange="{{ onBkName }}" placeholder="Name" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                  <input onChange="{{ onBkEmail }}" placeholder="Email for the invite" style="width:100%;box-sizing:border-box;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
                 </div>
+                <sc-if value="{{ hasBkErr }}"><div style="font-size:13px;line-height:1.6;color:#B5533C">{{ bkErr }}</div></sc-if>
                 <div onClick="{{ frConfirm }}" style="text-align:center;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:16px 26px;cursor:pointer;opacity:{{ frConfirmOpacity }}" style-hover="background:var(--fg);color:var(--bg)">{{ frConfirmLabel }}</div>
               </div>
             </sc-if>
@@ -1267,16 +1286,16 @@
             <div style="display:flex;flex-direction:column;gap:18px">
               <div>
                 <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">Name</div>
-                <input placeholder="First and last" style="width:100%;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                <input onChange="{{ onCName }}" placeholder="First and last" style="width:100%;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
               </div>
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px">
                 <div>
                   <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">Email</div>
-                  <input placeholder="you@email.com" style="width:100%;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                  <input onChange="{{ onCEmail }}" placeholder="you@email.com" style="width:100%;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
                 </div>
                 <div>
                   <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">Phone</div>
-                  <input placeholder="(000) 000-0000" style="width:100%;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
+                  <input onChange="{{ onCPhone }}" placeholder="(000) 000-0000" style="width:100%;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none">
                 </div>
               </div>
               <div>
@@ -1290,9 +1309,10 @@
               </div>
               <div>
                 <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:8px">What are we shading?</div>
-                <textarea rows="4" placeholder="Rooms, openings, anything you already know" style="width:100%;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none;resize:vertical"></textarea>
+                <textarea onChange="{{ onCMsg }}" rows="4" placeholder="Rooms, openings, anything you already know" style="width:100%;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:14px 15px;font-size:14px;outline:none;resize:vertical"></textarea>
               </div>
-              <div onClick="{{ submitForm }}" style="text-align:center;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:16px 26px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">Request my consultation</div>
+              <sc-if value="{{ hasCErr }}"><div style="font-size:13px;line-height:1.6;color:#B5533C">{{ cErr }}</div></sc-if>
+              <div onClick="{{ submitForm }}" style="text-align:center;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:16px 26px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">{{ cLabel }}</div>
               <div style="font-size:12px;line-height:1.6;color:rgba(var(--fgrgb),0.4)">We reply within one business day. Your details go only to your local franchise.</div>
             </div>
           </sc-if>
@@ -1356,7 +1376,9 @@ class Component extends DCLogic {
     faqOpen: -1, projectType: 'Residential', sent: false,
     theme: null, burst: null,
     sunAddr: '', sunLat: 33.45, sunPlace: null, sunHour: 15, season: 'jun', facing: 180,
-    mapsKey: '', streetErr: false, menuOpen: false
+    mapsKey: '', streetErr: false, menuOpen: false,
+    cBusy: false, cErr: '', frBusy: false, frErr: '', bkBusy: false, bkErr: '',
+    slotDays: null, slotErr: false, qBusy: false, qErr: '', qSent: false
   };
 
   CERT_CARDS = [
@@ -1438,6 +1460,101 @@ class Component extends DCLogic {
       const k = window.localStorage.getItem('atshades.mapsKey');
       if (k) this.setState({ mapsKey: k });
     } catch (e) {}
+  }
+
+  // ---- backend (PHP endpoints in /api, see api/README.md) ----
+  API = './api/';
+  _t0 = Date.now();
+  _f = {};
+  fld(k) { return (e) => { this._f = Object.assign({}, this._f, { [k]: e.target.value }); }; }
+  val(k) { return String(this._f[k] || '').trim(); }
+
+  async api(path, body) {
+    const opts = body ? { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ elapsed: Date.now() - this._t0, page: location.href }, body)) } : {};
+    let r, j = {};
+    try { r = await fetch(this.API + path, opts); j = await r.json(); }
+    catch (e) { throw new Error("We couldn't reach the server. Please try again, or call your nearest location."); }
+    if (!r.ok || !j.ok) throw new Error(j.error || 'Something went wrong. Please try again.');
+    return j;
+  }
+
+  nearestCity() {
+    const r = this.state.loc || this.nearest(this.state.zip);
+    return r ? r.loc.city : '';
+  }
+
+  // Approximate point for the visitor's ZIP (3-digit-ZIP centroid), sent so
+  // ERA can route the lead to the right franchisee's territory.
+  zipPoint() {
+    const digits = String(this.state.zip || '').replace(/[^0-9]/g, '');
+    if (digits.length < 3) return {};
+    const z3 = parseInt(digits.slice(0, 3), 10);
+    const r = this.ZIP3.find(x => z3 >= x[0] && z3 <= x[1]);
+    return r ? { lat: r[2], lng: r[3] } : {};
+  }
+
+  quizSummary() {
+    const a = this.state.answers;
+    if (a.length < 6) return null;
+    const ranked = this.score();
+    return { recommended: ranked[0].p.name, runner_up: ranked[1].p.name,
+      answers: a.map((oi, qi) => ({ q: this.QUESTIONS[qi].q, a: this.QUESTIONS[qi].options[oi].label })) };
+  }
+
+  async sendConsult() {
+    if (this.state.cBusy) return;
+    if (!this.val('cName') || !(this.val('cEmail') || this.val('cPhone'))) return this.setState({ cErr: 'Please add your name and an email or phone number.' });
+    this.setState({ cBusy: true, cErr: '' });
+    try {
+      await this.api('lead.php', { type: 'consult', name: this.val('cName'), email: this.val('cEmail'), phone: this.val('cPhone'),
+        message: this.val('cMsg'), project_type: this.state.projectType, zip: this.state.zip, franchise: this.nearestCity(), ...this.zipPoint(), quiz: this.quizSummary() });
+      this._f = Object.assign({}, this._f, { cName: '', cEmail: '', cPhone: '', cMsg: '' });
+      this.setState({ sent: true, cBusy: false });
+      window.scrollTo(0, 0);
+    } catch (e) { this.setState({ cBusy: false, cErr: e.message }); }
+  }
+
+  async sendFranchise() {
+    if (this.state.frBusy) return;
+    if (!this.val('frName') || !this.val('frEmail')) return this.setState({ frErr: 'Please add your name and email.' });
+    this.setState({ frBusy: true, frErr: '' });
+    try {
+      await this.api('lead.php', { type: 'franchise', name: this.val('frName'), region: this.val('frRegion'), email: this.val('frEmail'),
+        phone: this.val('frPhone'), background: this.state.frBg || 'Trades / install', message: this.val('frMsg') });
+      this._f = Object.assign({}, this._f, { frName: '', frRegion: '', frEmail: '', frPhone: '', frMsg: '' });
+      this.setState({ frSent: true, frBusy: false });
+    } catch (e) { this.setState({ frBusy: false, frErr: e.message }); }
+  }
+
+  async loadSlots() {
+    try { const j = await this.api('slots.php'); this.setState({ slotDays: j.days, slotErr: false }); }
+    catch (e) { this.setState({ slotErr: true }); }
+  }
+
+  async sendBooking(start, platform) {
+    if (this.state.bkBusy) return;
+    if (!this.val('bkName') || !this.val('bkEmail')) return this.setState({ bkErr: 'Please add your name and an email for the invite.' });
+    if (!start) return this.setState({ bkErr: "Online booking isn't available right now. Please send an enquiry and we'll set a time." });
+    this.setState({ bkBusy: true, bkErr: '' });
+    try {
+      await this.api('book.php', { start, platform, name: this.val('bkName'), email: this.val('bkEmail') });
+      this.setState({ bkBusy: false, frBooked: true });
+    } catch (e) { this.setState({ bkBusy: false, bkErr: e.message, frTime: null }); this.loadSlots(); }
+  }
+
+  logQuiz() {
+    this.api('lead.php', { type: 'quiz', zip: this.state.zip, franchise: this.nearestCity(), ...this.zipPoint(), quiz: this.quizSummary() }).catch(() => {});
+  }
+
+  async sendQuiz() {
+    if (this.state.qBusy) return;
+    if (!this.val('qEmail')) return this.setState({ qErr: 'Enter your email to receive the result.' });
+    this.setState({ qBusy: true, qErr: '' });
+    try {
+      await this.api('lead.php', { type: 'quiz', email: this.val('qEmail'), zip: this.state.zip, franchise: this.nearestCity(), ...this.zipPoint(), quiz: this.quizSummary() });
+      this.setState({ qBusy: false, qSent: true });
+    } catch (e) { this.setState({ qBusy: false, qErr: e.message }); }
   }
 
   SEASONS = { jun:{ label:'Summer solstice · June', decl:23.44 }, mar:{ label:'Equinox · March & September', decl:0 }, dec:{ label:'Winter solstice · December', decl:-23.44 } };
@@ -2043,10 +2160,12 @@ class Component extends DCLogic {
 
       quizAsking: answered < 6, quizDone: answered === 6,
       quizNum: Math.min(answered + 1, 6), quizPct: Math.round((answered / 6) * 100) + '%',
-      question: q ? { q:q.q, options:q.options.map((o, i) => ({ label:o.label, hint:o.hint, pick: () => this.setState({ answers:[...this.state.answers, i], qi: this.state.qi + 1 }) })) } : { q:'', options:[] },
+      question: q ? { q:q.q, options:q.options.map((o, i) => ({ label:o.label, hint:o.hint, pick: () => { const a = [...this.state.answers, i]; this.setState({ answers:a, qi: this.state.qi + 1, qSent:false, qErr:'' }); if (a.length === 6) setTimeout(() => this.logQuiz(), 0); } })) } : { q:'', options:[] },
       canBack: answered > 0,
       quizBack: () => this.setState({ answers: this.state.answers.slice(0, -1), qi: Math.max(0, this.state.qi - 1) }),
-      quizReset: () => this.setState({ answers: [], qi: 0 }),
+      quizReset: () => this.setState({ answers: [], qi: 0, qSent: false, qErr: '' }),
+      onQEmail: this.fld('qEmail'), sendQuiz: () => this.sendQuiz(),
+      qOpen: !s.qSent, qSent: s.qSent, hasQErr: !!s.qErr, qErr: s.qErr, qLabel: s.qBusy ? 'Sending…' : 'Email me this',
       winner: ranked[0].p, runner: ranked[1].p, reasons,
       note: answered === 6 ? this.specNote(ranked[0].p.slug) : null,
       hasNote: answered === 6 && !!this.specNote(ranked[0].p.slug),
@@ -2143,7 +2262,9 @@ class Component extends DCLogic {
       projectTypes: ['Residential','Commercial','Hospitality'].map(t => ({ label:t, go: () => this.setState({ projectType:t }) })),
       projectType: s.projectType,
       formOpen: !s.sent, formSent: s.sent,
-      submitForm: () => { this.setState({ sent:true }); window.scrollTo(0,0); },
+      submitForm: () => this.sendConsult(),
+      onCName: this.fld('cName'), onCEmail: this.fld('cEmail'), onCPhone: this.fld('cPhone'), onCMsg: this.fld('cMsg'),
+      hasCErr: !!s.cErr, cErr: s.cErr, cLabel: s.cBusy ? 'Sending…' : 'Request my consultation',
       resetForm: () => this.setState({ sent:false }),
       ...this.franchiseVals(s)
     };
@@ -2153,11 +2274,16 @@ class Component extends DCLogic {
     const tab = s.frTab || 'form', bg = s.frBg || 'Trades / install', plat = s.frPlat || 'Zoom';
     const on = 'var(--gold)', off = 'rgba(var(--fgrgb),0.25)';
     const scrollTo = () => setTimeout(() => { const el = document.getElementById('fr-start'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' }); }, 30);
-    const days = []; const d0 = new Date(); d0.setHours(0,0,0,0);
-    for (let i = 1; days.length < 10; i++) { const d = new Date(d0); d.setDate(d0.getDate() + i); if (d.getDay() % 6) days.push(d); }
-    const dayIdx = s.frDay ?? 0, day = days[dayIdx];
-    const slots = ['9:00 am','10:30 am','12:00 pm','1:30 pm','3:00 pm','4:30 pm'];
-    const taken = (di, ti) => ((di * 7 + ti * 3) % 5) === 0;
+    if (tab === 'book' && !this._slotsReq) { this._slotsReq = true; setTimeout(() => this.loadSlots(), 0); }
+    const live = Array.isArray(s.slotDays) && s.slotDays.length > 0;
+    const days = [];
+    if (live) s.slotDays.forEach(x => { const [y, m, dd] = x.date.split('-').map(Number); days.push(new Date(y, m - 1, dd)); });
+    else { const d0 = new Date(); d0.setHours(0,0,0,0);
+      for (let i = 1; days.length < 10; i++) { const d = new Date(d0); d.setDate(d0.getDate() + i); if (d.getDay() % 6) days.push(d); } }
+    const dayIdx = Math.min(s.frDay ?? 0, days.length - 1), day = days[dayIdx];
+    const tfmt = t => new Date(t * 1000).toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' }).toLowerCase();
+    const slots = live ? s.slotDays[dayIdx].slots.map(x => tfmt(x.start)) : ['9:00 am','10:30 am','12:00 pm','1:30 pm','3:00 pm','4:30 pm'];
+    const taken = (di, ti) => live ? !!s.slotDays[di].slots[ti].taken : ((di * 7 + ti * 3) % 5) === 0;
     let tz = 'local time'; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g,' '); } catch (e) {}
     const fmt = (d, o) => d.toLocaleDateString('en-US', o);
     return {
@@ -2172,7 +2298,11 @@ class Component extends DCLogic {
       frTabs: [['form','Send an enquiry'],['book','Book an online meeting']].map(([k,label]) => ({ label, go: () => this.setState({ frTab:k }), color: tab===k ? 'var(--gold)' : 'rgba(var(--fgrgb),0.6)', bg: tab===k ? 'transparent' : 'rgba(var(--fgrgb),0.04)' })),
       frBackgrounds: ['Trades / install','Sales','Business owner','Career change'].map(label => ({ label, go: () => this.setState({ frBg:label }), border: bg===label ? on : off, color: bg===label ? on : 'rgba(var(--fgrgb),0.85)' })),
       frFormOpen: tab==='form' && !s.frSent, frFormSent: tab==='form' && !!s.frSent,
-      frSubmit: () => this.setState({ frSent:true }), frReset: () => this.setState({ frSent:false }),
+      frSubmit: () => this.sendFranchise(), frReset: () => this.setState({ frSent:false }),
+      onFrName: this.fld('frName'), onFrRegion: this.fld('frRegion'), onFrEmail: this.fld('frEmail'), onFrPhone: this.fld('frPhone'), onFrMsg: this.fld('frMsg'),
+      hasFrErr: !!s.frErr, frErr: s.frErr, frSubmitLabel: s.frBusy ? 'Sending…' : 'Send enquiry',
+      onBkName: this.fld('bkName'), onBkEmail: this.fld('bkEmail'),
+      hasBkErr: !!(s.bkErr || (s.slotErr && tab === 'book')), bkErr: s.bkErr || "Live availability couldn't be loaded. Times shown may not be open.",
       frBookOpen: tab==='book' && !s.frBooked, frBooked: tab==='book' && !!s.frBooked,
       frDays: days.map((d, i) => ({ dow: fmt(d,{weekday:'short'}), num: d.getDate(), mon: fmt(d,{month:'short'}), go: () => this.setState({ frDay:i, frTime:null }),
         border: i===dayIdx ? on : off, bg: i===dayIdx ? 'var(--gold)' : 'transparent', color: i===dayIdx ? 'var(--on-accent)' : 'var(--fg)' })),
@@ -2183,10 +2313,10 @@ class Component extends DCLogic {
       frPlatforms: ['Zoom','Google Meet','Microsoft Teams'].map(label => ({ label, go: () => this.setState({ frPlat:label }), border: plat===label ? on : off, color: plat===label ? on : 'rgba(var(--fgrgb),0.85)' })),
       frPlatform: plat,
       frConfirmOpacity: s.frTime == null ? 0.45 : 1,
-      frConfirmLabel: s.frTime == null ? 'Select a time' : 'Confirm ' + fmt(day,{weekday:'short', month:'short', day:'numeric'}) + ' · ' + slots[s.frTime],
-      frConfirm: () => { if (s.frTime != null) this.setState({ frBooked:true }); },
+      frConfirmLabel: s.bkBusy ? 'Booking…' : s.frTime == null ? 'Select a time' : 'Confirm ' + fmt(day,{weekday:'short', month:'short', day:'numeric'}) + ' · ' + slots[s.frTime],
+      frConfirm: () => { if (s.frTime != null) this.sendBooking(live && s.slotDays[dayIdx].slots[s.frTime] ? s.slotDays[dayIdx].slots[s.frTime].start : null, plat); },
       frBookedWhen: s.frTime != null ? fmt(day,{weekday:'long', month:'long', day:'numeric'}) + ', ' + slots[s.frTime] : '',
-      frRebook: () => this.setState({ frBooked:false })
+      frRebook: () => { this.setState({ frBooked:false, frTime:null }); this.loadSlots(); }
     };
   }
 }

@@ -1,0 +1,4 @@
+# Only the public endpoints may be requested directly.
+<FilesMatch "^(lib|config|config\.sample)\.php$">
+  Require all denied
+</FilesMatch>
