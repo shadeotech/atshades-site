@@ -550,22 +550,16 @@
       <div style="max-width:1240px;margin:0 auto">
         <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px">Sun study</div>
         <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(40px,6vw,84px);line-height:1;margin:0 0 24px;letter-spacing:-0.015em">See which side<br><em style="font-weight:300">takes the heat.</em></h1>
-        <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2vw,25px);line-height:1.55;color:rgba(var(--fgrgb),0.78);max-width:640px;margin:0 0 32px;text-wrap:pretty">Enter your address, point the house the way it actually faces, then move through the day and the seasons. The sun geometry is computed for your latitude — not a stock illustration.</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2vw,25px);line-height:1.55;color:rgba(var(--fgrgb),0.78);max-width:640px;margin:0 0 32px;text-wrap:pretty">Enter your address, point the house the way it actually faces, then move through the day and the seasons. The sun geometry is computed for your exact location, date and time — not a stock illustration.</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;max-width:620px">
           <input value="{{ sunAddr }}" onChange="{{ onSunAddr }}" onKeyDown="{{ onSunKey }}" placeholder="House number, street, city or ZIP" style="flex:1;min-width:230px;background:transparent;border:1px solid rgba(var(--fgrgb),0.3);color:var(--fg);padding:15px 16px;font-size:14px;outline:none">
-          <div onClick="{{ runSun }}" style="font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:16px 24px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">Run study</div>
+          <div onClick="{{ runSun }}" style="font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:16px 24px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">{{ runSunLabel }}</div>
         </div>
         <div style="font-size:12.5px;color:rgba(var(--fgrgb),0.5);margin-top:12px">{{ sunPlaceLabel }}</div>
-        <div style="margin-top:18px;border:1px solid rgba(var(--fgrgb),0.14);padding:18px 20px;max-width:620px">
-          <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:12px">
-            <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5)">Live street imagery</div>
-            <div style="font-size:11px;letter-spacing:0.1em;color:var(--gold)">{{ streetStatus }}</div>
-          </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <input value="{{ mapsKey }}" onChange="{{ onMapsKey }}" type="password" placeholder="Google Maps API key (stored in this browser only)" style="flex:1;min-width:230px;background:transparent;border:1px solid rgba(var(--fgrgb),0.25);color:var(--fg);padding:13px 14px;font-size:13px;outline:none">
-            <div onClick="{{ clearMapsKey }}" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:14px 16px;cursor:pointer;border:1px solid rgba(var(--fgrgb),0.25);color:rgba(var(--fgrgb),0.7)" style-hover="border:1px solid var(--gold);color:var(--gold)">Clear</div>
-          </div>
-          <div style="font-size:12px;line-height:1.7;color:rgba(var(--fgrgb),0.45);margin-top:10px">Needs the Street View Static API enabled. Without a key the panel stays a drop target — drag in a photo of the house instead.</div>
+        <sc-if value="{{ hasSunErr }}"><div style="font-size:13px;color:#B5533C;margin-top:10px">{{ sunErr }}</div></sc-if>
+        <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:14px;font-size:11px;letter-spacing:0.1em">
+          <span style="text-transform:uppercase;letter-spacing:0.16em;font-size:10.5px;color:rgba(var(--fgrgb),0.5)">Street imagery</span>
+          <span style="color:var(--gold)">{{ streetStatus }}</span>
         </div>
       </div>
     </section>
@@ -642,24 +636,25 @@
             <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5)">Time of day</div>
             <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold)">{{ sunClock }}</div>
           </div>
-          <input type="range" min="4" max="21" step="1" value="{{ sunHour }}" onChange="{{ onSunHour }}" onInput="{{ onSunHour }}" style="width:100%;accent-color:var(--gold)">
+          <input type="range" min="4" max="21" step="0.25" value="{{ sunHour }}" onChange="{{ onSunHour }}" onInput="{{ onSunHour }}" style="width:100%;accent-color:var(--gold)">
           <div style="display:flex;justify-content:space-between;font-size:10px;letter-spacing:0.14em;color:rgba(var(--fgrgb),0.4);margin-top:4px"><span>04:00</span><span>12:00</span><span>21:00</span></div>
         </div>
         <div>
-          <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:12px">Season</div>
+          <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:12px">Date</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <sc-for list="{{ seasonTabs }}" as="t" hint-placeholder-count="4">
-              <div onClick="{{ t.go }}" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:10px 15px;cursor:pointer;border:1px solid rgba(var(--fgrgb),0.28);color:rgba(var(--fgrgb),0.85)" style-hover="border:1px solid var(--gold);color:var(--gold)">{{ t.label }}</div>
+              <div onClick="{{ t.go }}" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:10px 15px;cursor:pointer;border:1px solid {{ t.border }};color:{{ t.color }}" style-hover="border:1px solid var(--gold);color:var(--gold)">{{ t.label }}</div>
             </sc-for>
+            <input type="date" value="{{ sunDateValue }}" onChange="{{ onSunDate }}" style="background:transparent;border:1px solid rgba(var(--fgrgb),0.28);color:var(--fg);padding:8px 10px;font-size:12px;outline:none">
           </div>
           <div style="font-size:11.5px;color:var(--gold);margin-top:10px;letter-spacing:0.1em">{{ seasonLabel }}</div>
         </div>
         <div>
           <div style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--fgrgb),0.5);margin-bottom:12px">Front of house faces</div>
-          <div style="font-size:11.5px;color:rgba(var(--fgrgb),0.45);margin-bottom:10px">The camera swings round to look at this elevation.</div>
+          <div style="font-size:11.5px;color:rgba(var(--fgrgb),0.45);margin-bottom:10px">{{ facingNote }}</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <sc-for list="{{ facingTabs }}" as="t" hint-placeholder-count="8">
-              <div onClick="{{ t.go }}" style="font-size:11px;letter-spacing:0.12em;padding:10px 13px;cursor:pointer;border:1px solid rgba(var(--fgrgb),0.28);color:rgba(var(--fgrgb),0.85)" style-hover="border:1px solid var(--gold);color:var(--gold)">{{ t.label }}</div>
+              <div onClick="{{ t.go }}" style="font-size:11px;letter-spacing:0.12em;padding:10px 13px;cursor:pointer;border:1px solid {{ t.border }};color:{{ t.color }}" style-hover="border:1px solid var(--gold);color:var(--gold)">{{ t.label }}</div>
             </sc-for>
           </div>
         </div>
@@ -1375,8 +1370,8 @@ class Component extends DCLogic {
     openness: '3', qi: 0, answers: [], zip: '', loc: null, locMiss: false,
     faqOpen: -1, projectType: 'Residential', sent: false,
     theme: null, burst: null,
-    sunAddr: '', sunLat: 33.45, sunPlace: null, sunHour: 15, season: 'jun', facing: 180,
-    mapsKey: '', streetErr: false, menuOpen: false,
+    sunAddr: '', sunLat: 33.45, sunLng: -112.07, sunTz: 'America/Phoenix', sunPlace: null, sunHour: 15, sunDate: null, facing: 180,
+    sunGeo: null, sunBusy: false, sunErr: '', facingAuto: false, streetErr: false, menuOpen: false,
     cBusy: false, cErr: '', frBusy: false, frErr: '', bkBusy: false, bkErr: '',
     slotDays: null, slotErr: false, qBusy: false, qErr: '', qSent: false
   };
@@ -1456,14 +1451,15 @@ class Component extends DCLogic {
   ];
 
   componentDidMount() {
-    try {
-      const k = window.localStorage.getItem('atshades.mapsKey');
-      if (k) this.setState({ mapsKey: k });
-    } catch (e) {}
+    if (typeof window === 'undefined') return;
+    const r = this.routeFromPath(window.location.pathname);
+    if (r.page !== 'home') this.setState(r);
+    this.setTitle(r.page, r.slug);
+    window.addEventListener('popstate', this.onPopState);
   }
 
   // ---- backend (PHP endpoints in /api, see api/README.md) ----
-  API = './api/';
+  API = '/api/';
   _t0 = Date.now();
   _f = {};
   fld(k) { return (e) => { this._f = Object.assign({}, this._f, { [k]: e.target.value }); }; }
@@ -1562,7 +1558,7 @@ class Component extends DCLogic {
 
   LIGHT_VARS = '--bg:#EEE8D6;--fg:#091310;--bgrgb:238,232,214;--fgrgb:9,19,16;--alt-bg:#16251B;--panel:#E3DCC6;--panel-soft:#EAE4D1;--hover:#E7E0CB;--gold:#7E6835;--gold-alt:#BFA877;--on-accent:#EEE8D6;';
 
-  componentWillUnmount() { clearTimeout(this._burstT); }
+  componentWillUnmount() { clearTimeout(this._burstT); if (typeof window !== 'undefined') window.removeEventListener('popstate', this.onPopState); }
 
   IMGS = {
     roller:['images/roller-1.webp','images/roller-2.webp'],
@@ -1809,9 +1805,45 @@ class Component extends DCLogic {
       process:[{n:'01',t:'Room-type survey',d:'One survey per room type, plus every non-standard opening.'},{n:'02',t:'Model room',d:'A full model room installed and approved before the rollout.'},{n:'03',t:'Programme planning',d:'Floor-by-floor schedule that works around occupancy.'},{n:'04',t:'Rollout',d:'Crews sized to hit your rooms-per-day target.'},{n:'05',t:'Spares & service',d:'Attic stock held locally, with a response-time service agreement.'}] }
   };
 
-  go = (page) => () => { this.setState({ page, menuOpen: false, shadesOpen: false }); if (typeof window !== 'undefined') window.scrollTo(0, 0); };
+  // ---- clean URLs: every page and product has its own address ----
+  ROUTES = { home:'', about:'about', certs:'certifications', contact:'book-consultation', fabrics:'fabrics', faq:'faq',
+    franchise:'franchise', quiz:'shade-finder', spaces:'commercial-hospitality', sun:'sun-study', tech:'technology', warranty:'warranty' };
+  PRODUCT_PATHS = { roller:'roller-shades', duo:'duo-shades', tri:'tri-shades', uni:'uni-shades', roman:'roman-shades',
+    zip:'exterior-zip-track', wire:'exterior-wire-guide' };
+  PAGE_TITLES = { home:'At Shades — Window Shades & Exterior Screens', about:'About', certs:'Certifications', contact:'Book a Free Consultation',
+    fabrics:'Fabrics', faq:'FAQ', franchise:'Own an At Shades Franchise', quiz:'Shade Finder', spaces:'Commercial & Hospitality',
+    sun:'Sun Study', tech:'Technology', warranty:'Warranty' };
+
+  pathFor(page, slug) { return '/' + (page === 'product' ? (this.PRODUCT_PATHS[slug] || '') : (this.ROUTES[page] || '')); }
+
+  routeFromPath(path) {
+    const key = String(path || '/').replace(/^\/+|\/+$/g, '').toLowerCase();
+    const prod = Object.keys(this.PRODUCT_PATHS).find(k => this.PRODUCT_PATHS[k] === key);
+    if (prod) return { page: 'product', slug: prod };
+    const page = Object.keys(this.ROUTES).find(k => this.ROUTES[k] === key);
+    return { page: page || 'home' };
+  }
+
+  setTitle(page, slug) {
+    if (typeof document === 'undefined') return;
+    const prod = page === 'product' ? (this.PRODUCTS.find(p => p.slug === slug) || {}).name : null;
+    document.title = page === 'home' ? this.PAGE_TITLES.home : (prod || this.PAGE_TITLES[page] || 'At Shades') + ' — At Shades';
+  }
+
+  navigate(next) {
+    this.setState(Object.assign({ menuOpen: false, shadesOpen: false }, next));
+    if (typeof window === 'undefined') return;
+    const path = this.pathFor(next.page, next.slug);
+    if (window.location.pathname !== path) { try { window.history.pushState(next, '', path); } catch (e) {} }
+    this.setTitle(next.page, next.slug);
+    window.scrollTo(0, 0);
+  }
+
+  onPopState = () => { const r = this.routeFromPath(window.location.pathname); this.setState(Object.assign({ menuOpen: false, shadesOpen: false }, r)); this.setTitle(r.page, r.slug); };
+
+  go = (page) => () => this.navigate({ page });
   goFranchiseSite = () => { this.setState({ menuOpen:false }); window.open('https://franchise.atshades.com', '_blank', 'noopener'); };
-  goSlug = (slug) => () => { this.setState({ page:'product', slug, shadesOpen:false, menuOpen:false }); if (typeof window !== 'undefined') window.scrollTo(0, 0); };
+  goSlug = (slug) => () => this.navigate({ page: 'product', slug });
 
   tags() {
     const out = {};
@@ -1868,13 +1900,61 @@ class Component extends DCLogic {
       .sort((a, b) => b.s - a.s);
   }
 
-  // --- solar geometry: real altitude/azimuth for the latitude, date and hour ---
-  sunPos(lat, decl, hour) {
-    const R = Math.PI / 180, la = lat * R, de = decl * R, H = (hour - 12) * 15 * R;
-    const alt = Math.asin(Math.sin(la) * Math.sin(de) + Math.cos(la) * Math.cos(de) * Math.cos(H));
-    let az = Math.atan2(Math.sin(H), Math.cos(H) * Math.sin(la) - Math.tan(de) * Math.cos(la));
-    az = (az / R + 180 + 360) % 360;
-    return { alt: alt / R, az };
+  // --- solar geometry -------------------------------------------------------
+  // NOAA solar position algorithm: true altitude and azimuth for a real place
+  // (latitude AND longitude) at a real instant. Accurate to a small fraction
+  // of a degree, which is far finer than a window needs.
+  solarPosition(date, lat, lng) {
+    const R = Math.PI / 180;
+    const jd = date.getTime() / 86400000 + 2440587.5;
+    const T = (jd - 2451545) / 36525;
+    const L0 = ((280.46646 + T * (36000.76983 + T * 0.0003032)) % 360 + 360) % 360;
+    const M = 357.52911 + T * (35999.05029 - 0.0001537 * T);
+    const e = 0.016708634 - T * (0.000042037 + 0.0000001267 * T);
+    const C = Math.sin(M * R) * (1.914602 - T * (0.004817 + 0.000014 * T))
+      + Math.sin(2 * M * R) * (0.019993 - 0.000101 * T) + Math.sin(3 * M * R) * 0.000289;
+    const omega = 125.04 - 1934.136 * T;
+    const lambda = L0 + C - 0.00569 - 0.00478 * Math.sin(omega * R);
+    const eps = 23 + (26 + (21.448 - T * (46.815 + T * (0.00059 - T * 0.001813))) / 60) / 60 + 0.00256 * Math.cos(omega * R);
+    const decl = Math.asin(Math.sin(eps * R) * Math.sin(lambda * R));
+    const y = Math.pow(Math.tan(eps * R / 2), 2);
+    const eqTime = 4 / R * (y * Math.sin(2 * L0 * R) - 2 * e * Math.sin(M * R)
+      + 4 * e * y * Math.sin(M * R) * Math.cos(2 * L0 * R)
+      - 0.5 * y * y * Math.sin(4 * L0 * R) - 1.25 * e * e * Math.sin(2 * M * R));
+    const utcMin = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60;
+    const tst = (((utcMin + eqTime + 4 * lng) % 1440) + 1440) % 1440;
+    const ha = (tst / 4 - 180) * R, la = lat * R;
+    const cosZen = Math.sin(la) * Math.sin(decl) + Math.cos(la) * Math.cos(decl) * Math.cos(ha);
+    const zen = Math.acos(Math.max(-1, Math.min(1, cosZen)));
+    const az = (Math.atan2(Math.sin(ha), Math.cos(ha) * Math.sin(la) - Math.tan(decl) * Math.cos(la)) / R + 180 + 360) % 360;
+    return { alt: 90 - zen / R, az };
+  }
+
+  // Minutes the zone is ahead of UTC at an instant (handles daylight saving).
+  tzOffsetMin(tz, date) {
+    try {
+      const p = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).formatToParts(date);
+      const g = t => +p.find(x => x.type === t).value;
+      return (Date.UTC(g('year'), g('month') - 1, g('day'), g('hour'), g('minute'), g('second')) - date.getTime()) / 60000;
+    } catch (err) { return -date.getTimezoneOffset(); }
+  }
+
+  browserTz() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) { return null; } }
+
+  todayIso() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  // A function hour → sun position, for local clock time at the place on the
+  // given day. The zone offset is taken at local noon: daylight saving
+  // switches at 2am, outside any hour that matters here.
+  sunClockFn(lat, lng, dateIso, tz) {
+    const [y, m, d] = dateIso.split('-').map(Number);
+    const noon = Date.UTC(y, m - 1, d, 12);
+    const off = tz ? this.tzOffsetMin(tz, new Date(noon)) : -new Date(noon).getTimezoneOffset();
+    const midnightUtc = Date.UTC(y, m - 1, d) - off * 60000;
+    return (h) => this.solarPosition(new Date(midnightUtc + h * 3600000), lat, lng);
   }
 
   // Direct-beam factor on a vertical wall of a given compass bearing.
@@ -1885,24 +1965,30 @@ class Component extends DCLogic {
     return Math.max(0, inc) * Math.min(1, 0.35 + Math.sin(sun.alt * R));
   }
 
-  dayLoad(lat, decl, wallAz) {
-    let total = 0, hours = 0, peak = 0;
-    for (let h = 4; h <= 21; h += 0.5) {
-      const f = this.wallFactor(this.sunPos(lat, decl, h), wallAz);
-      total += f * 0.5;
-      if (f > 0.15) hours += 0.5;
-      if (f > peak) peak = f;
+  dayLoad(sunAt, wallAz) {
+    let total = 0, hours = 0, peak = 0, peakH = 12;
+    for (let h = 4; h <= 21; h += 0.25) {
+      const f = this.wallFactor(sunAt(h), wallAz);
+      total += f * 0.25;
+      if (f > 0.15) hours += 0.25;
+      if (f > peak) { peak = f; peakH = h; }
     }
-    return { total, hours, peak };
+    return { total, hours, peak, peakH };
   }
 
-  daylight(lat, decl) {
-    const R = Math.PI / 180;
-    const c = -Math.tan(lat * R) * Math.tan(decl * R);
-    if (c <= -1) return { rise: 0, set: 24 };
-    if (c >= 1) return { rise: null, set: null };
-    const H = Math.acos(c) / R / 15;
-    return { rise: 12 - H, set: 12 + H };
+  // Sunrise and sunset (upper limb with refraction, -0.833°), local clock.
+  daylight(sunAt) {
+    const H0 = -0.833, step = 1 / 12;
+    let rise = null, set = null, prev = sunAt(0).alt;
+    for (let h = step; h <= 24 + 1e-9; h += step) {
+      const cur = sunAt(h).alt;
+      const t = h - step + step * (H0 - prev) / (cur - prev);
+      if (prev < H0 && cur >= H0 && rise === null) rise = t;
+      if (prev >= H0 && cur < H0) set = t;
+      prev = cur;
+    }
+    if (rise === null && set === null) return sunAt(12).alt > H0 ? { rise: 0, set: 24 } : { rise: null, set: null };
+    return { rise, set };
   }
 
   hhmm(h) {
@@ -1952,18 +2038,31 @@ class Component extends DCLogic {
     return null;
   }
 
-  resolveSun() {
-    const r = this.nearest(this.state.sunAddr);
-    const digits = (this.state.sunAddr || '').replace(/[^0-9]/g, '');
-    let lat = this.state.sunLat, place = null;
-    if (r) { lat = r.loc.lat; place = r.loc.city.split(' — ')[0]; }
-    if (digits.length >= 5) {
-      const z3 = parseInt(digits.slice(-5).slice(0, 3), 10);
-      const row = this.ZIP3.find(x => z3 >= x[0] && z3 <= x[1]);
-      if (row) lat = row[2];
+  async resolveSun() {
+    const q = (this.state.sunAddr || '').trim();
+    if (!q || this.state.sunBusy) return;
+    this.setState({ sunBusy: true, sunErr: '' });
+    try {
+      const g = await this.api('geo.php?q=' + encodeURIComponent(q));
+      const place = String(g.place || q).replace(/, (United States|USA|Canada)$/, '');
+      this.setState({
+        sunBusy: false, sunGeo: g, sunLat: g.lat, sunLng: g.lng, sunTz: g.tz || null, sunPlace: place, streetErr: false,
+        ...(g.facing != null ? { facing: g.facing, facingAuto: true } : { facingAuto: false })
+      });
+    } catch (e) {
+      // Server unreachable (e.g. a local preview): fall back to the ZIP-prefix
+      // table so the study still runs, approximately.
+      const digits = q.replace(/[^0-9]/g, '');
+      const z3 = digits.length >= 3 ? parseInt(digits.slice(-5).slice(0, 3), 10) : null;
+      const row = z3 != null ? this.ZIP3.find(x => z3 >= x[0] && z3 <= x[1]) : null;
+      const r = row ? null : this.nearest(q);
+      if (row || r) {
+        this.setState({ sunBusy: false, sunGeo: null, sunLat: row ? row[2] : r.loc.lat, sunLng: row ? row[3] : r.loc.lng,
+          sunTz: null, sunPlace: q + ' (approximate)', facingAuto: false, sunErr: '' });
+      } else {
+        this.setState({ sunBusy: false, sunErr: e.message });
+      }
     }
-    if (!place && this.state.sunAddr.trim()) place = this.state.sunAddr.trim();
-    this.setState({ sunLat: lat, sunPlace: place });
   }
 
   renderVals() {
@@ -1989,9 +2088,11 @@ class Component extends DCLogic {
       : h < 21 ? 'Evening privacy. Open enough to see the garden, closed enough for the street.'
       : 'Night position. Everything closed, quietly, at the scene you set.';
     // ---- sun study computation ----
-    const decl = this.SEASONS[s.season].decl;
-    const sun = this.sunPos(s.sunLat, decl, s.sunHour);
-    const dl = this.daylight(s.sunLat, decl);
+    const sunDate = s.sunDate || this.todayIso();
+    const sunTz = s.sunTz || this.browserTz();
+    const sunAt = this.sunClockFn(s.sunLat, s.sunLng, sunDate, sunTz);
+    const sun = sunAt(s.sunHour);
+    const dl = this.daylight(sunAt);
     const bearingName = (az) => this.COMPASS.reduce((best, c) => {
       const d = Math.min(Math.abs(c.az - az), 360 - Math.abs(c.az - az));
       return (!best || d < best.d) ? { d, n: c.label } : best;
@@ -2000,9 +2101,9 @@ class Component extends DCLogic {
     const facades = FACADE_AZ.map(fa => ({
       name: fa.name, az: fa.az,
       now: this.wallFactor(sun, fa.az),
-      day: this.dayLoad(s.sunLat, decl, fa.az)
+      day: this.dayLoad(sunAt, fa.az)
     }));
-    const streetLive = !!(s.mapsKey.trim() && s.sunAddr.trim() && !s.streetErr);
+    const streetLive = !!(s.sunGeo && s.sunGeo.street && s.sunGeo.camera && !s.streetErr);
     const frontF = this.wallFactor(sun, s.facing);
     const relAz = ((sun.az - s.facing) + 360) % 360;
     const markGeom = (az) => {
@@ -2013,14 +2114,7 @@ class Component extends DCLogic {
         w: horiz ? '48%' : '7px', h: horiz ? '7px' : '48%'
       };
     };
-    const peakHour = (wallAz) => {
-      let best = 12, bestF = -1;
-      for (let h = 4; h <= 21; h += 0.5) {
-        const v = this.wallFactor(this.sunPos(s.sunLat, decl, h), wallAz);
-        if (v > bestF) { bestF = v; best = h; }
-      }
-      return best;
-    };
+    const peakHour = (wallAz) => this.dayLoad(sunAt, wallAz).peakH;
     const CHARACTER = {
       North: 'only catches low early and late sun, and only in high summer',
       East: 'takes the morning sun head-on, low and straight through the glass',
@@ -2040,8 +2134,8 @@ class Component extends DCLogic {
     const ranked3 = facades.slice().sort((a, b) => b.day.total - a.day.total).slice(0, 3).map(fa => Object.assign({}, fa, { rx: prescribe(fa) }));
     const worst = ranked3[0];
     const verdict = worst.day.hours < 1
-      ? 'At this latitude and season no elevation takes a meaningful direct load — glare and privacy will drive the specification rather than heat.'
-      : 'The ' + worst.name.toLowerCase() + ' elevation is the problem: roughly ' + worst.day.hours.toFixed(1) + ' hours of direct sun on ' + (s.season === 'jun' ? 'a June day' : s.season === 'dec' ? 'a December day' : 'an equinox day') + ', peaking at ' + Math.round(worst.day.peak * 100) + '% of full beam. Treat it first — and treat it outside if you can.';
+      ? 'On this date at this address no elevation takes a meaningful direct load — glare and privacy will drive the specification rather than heat.'
+      : 'The ' + worst.name.toLowerCase() + ' elevation is the problem: roughly ' + worst.day.hours.toFixed(1) + ' hours of direct sun on ' + new Date(sunDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) + ', peaking at ' + Math.round(worst.day.peak * 100) + '% of full beam. Treat it first — and treat it outside if you can.';
 
     const answered = s.answers.length;
     const q = this.QUESTIONS[s.qi];
@@ -2191,40 +2285,40 @@ class Component extends DCLogic {
       onSunAddr: (e) => this.setState({ sunAddr: e.target.value }),
       onSunKey: (e) => { if (e.key === 'Enter') this.resolveSun(); },
       runSun: () => this.resolveSun(),
-      mapsKey: s.mapsKey,
-      onMapsKey: (e) => {
-        const v = e.target.value;
-        try { if (v) window.localStorage.setItem('atshades.mapsKey', v); } catch (err) {}
-        this.setState({ mapsKey: v, streetErr: false });
-      },
-      clearMapsKey: () => {
-        try { window.localStorage.removeItem('atshades.mapsKey'); } catch (err) {}
-        this.setState({ mapsKey: '', streetErr: false });
-      },
       liveStreetView: streetLive,
       slotStreetView: !streetLive,
       streetImg: streetLive ? React.createElement('img', {
-        src: 'https://maps.googleapis.com/maps/api/streetview?size=800x500&fov=75&pitch=8&source=outdoor'
-          + '&location=' + encodeURIComponent(s.sunAddr.trim())
-          + '&heading=' + (((s.facing + 180) % 360).toFixed(0))
-          + '&key=' + encodeURIComponent(s.mapsKey.trim()),
-        alt: 'Street view of the address',
+        src: this.API + 'streetview.php?lat=' + s.sunGeo.lat + '&lng=' + s.sunGeo.lng + '&heading=' + s.sunGeo.camera.heading,
+        alt: 'Street view of ' + (s.sunPlace || 'the address'),
         onError: () => this.setState({ streetErr: true }),
         style: { position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover' }
       }) : null,
-      streetStatus: !s.mapsKey.trim() ? 'Key not set · using drop target'
-        : !s.sunAddr.trim() ? 'Key saved · enter an address'
-        : s.streetErr ? 'No imagery returned for that address'
-        : 'Live · looking ' + bearingName((s.facing + 180) % 360),
+      streetStatus: s.sunBusy ? 'Locating…'
+        : !s.sunGeo ? 'Enter an address to load the street'
+        : !s.sunGeo.street || s.streetErr ? 'No street imagery for this address'
+        : 'Live · looking ' + bearingName(s.sunGeo.camera.heading) + ' at the house',
+      hasSunErr: !!s.sunErr, sunErr: s.sunErr, runSunLabel: s.sunBusy ? 'Locating…' : 'Run study',
 
       sunPlaceLabel: s.sunPlace
-        ? 'Studying ' + s.sunPlace + ' · latitude ' + s.sunLat.toFixed(2) + '°N'
-        : 'Defaulting to latitude 33.45°N — enter an address or ZIP to compute yours.',
+        ? 'Studying ' + s.sunPlace + ' · ' + Math.abs(s.sunLat).toFixed(3) + '°' + (s.sunLat >= 0 ? 'N' : 'S') + ', '
+          + Math.abs(s.sunLng).toFixed(3) + '°' + (s.sunLng >= 0 ? 'E' : 'W') + (sunTz ? ' · ' + sunTz.replace(/_/g, ' ') : '')
+        : 'Showing Phoenix, AZ until you enter an address or ZIP.',
       sunHour: s.sunHour, sunClock: this.hhmm(s.sunHour),
-      onSunHour: (e) => this.setState({ sunHour: parseInt(e.target.value, 10) }),
-      seasonTabs: Object.keys(this.SEASONS).map(k => ({ label: k === 'jun' ? 'Summer' : k === 'mar' ? 'Equinox' : 'Winter', go: () => this.setState({ season: k }) })),
-      seasonLabel: this.SEASONS[s.season].label,
-      facingTabs: this.COMPASS.map(c => ({ label: c.label, go: () => this.setState({ facing: c.az }) })),
+      onSunHour: (e) => this.setState({ sunHour: parseFloat(e.target.value) }),
+      seasonTabs: (() => {
+        const yr = new Date().getFullYear(), today = this.todayIso();
+        return [['Today', today], ['Summer', yr + '-06-21'], ['Equinox', yr + '-09-22'], ['Winter', yr + '-12-21']].map(([label, iso]) => ({
+          label, go: () => this.setState({ sunDate: iso }),
+          border: sunDate === iso ? 'var(--gold)' : 'rgba(var(--fgrgb),0.28)', color: sunDate === iso ? 'var(--gold)' : 'rgba(var(--fgrgb),0.85)' }));
+      })(),
+      sunDateValue: sunDate,
+      onSunDate: (e) => { if (/^\d{4}-\d{2}-\d{2}$/.test(e.target.value)) this.setState({ sunDate: e.target.value }); },
+      seasonLabel: new Date(sunDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }),
+      facingNote: s.facingAuto ? 'Detected from the street at ' + Math.round(s.facing) + '°. Tap another direction if it looks wrong.'
+        : 'Pick the direction the front door looks out toward.',
+      facingTabs: this.COMPASS.map(c => { const on = Math.min(Math.abs(c.az - s.facing), 360 - Math.abs(c.az - s.facing)) < 22.5;
+        return { label: c.label, go: () => this.setState({ facing: c.az, facingAuto: false }),
+          border: on ? 'var(--gold)' : 'rgba(var(--fgrgb),0.28)', color: on ? 'var(--gold)' : 'rgba(var(--fgrgb),0.85)' }; }),
 
       altitudeLabel: (sun.alt > 0 ? sun.alt.toFixed(0) : '0') + '°',
       azimuthLabel: sun.alt > 0 ? sun.az.toFixed(0) + '° ' + bearingName(sun.az) : 'Below horizon',
@@ -2234,7 +2328,7 @@ class Component extends DCLogic {
       skySunOpacity: sun.alt > 0 ? 1 : 0,
       skySunLeft: (50 + Math.max(-46, Math.min(46, relAz > 180 ? relAz - 360 : relAz)) * 0.55).toFixed(1) + '%',
       skySunTop: (78 - Math.max(0, Math.min(90, sun.alt)) * 0.72).toFixed(1) + '%',
-      frontLabel: 'Front faces ' + bearingName(s.facing),
+      frontLabel: 'Front faces ' + bearingName(s.facing) + (s.facingAuto ? ' · ' + Math.round(s.facing) + '° detected' : ''),
       frontReadout: sun.alt <= 0
         ? 'Sun below the horizon — no direct load'
         : Math.round(frontF * 100) + '% of peak load on the front elevation now',

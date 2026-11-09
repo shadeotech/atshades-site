@@ -97,6 +97,14 @@ return [
     'timeout' => 8,
   ],
 
+  // ---- Sun study ---------------------------------------------------------
+  // Google Cloud key with Geocoding API, Time Zone API and Street View Static
+  // API enabled. It stays on the server; visitors never see it. Restrict it in
+  // Google Cloud to those three APIs. Without a key the sun study still works
+  // (OpenStreetMap geocoding, the visitor's time zone, manual facing) but has
+  // no street photo and cannot detect which way the house faces.
+  'google_maps_key' => '',
+
   // ---- Abuse protection --------------------------------------------------
   'rate_limit_per_hour' => 12,   // submissions per IP per hour
 ];

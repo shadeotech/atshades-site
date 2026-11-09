@@ -1,0 +1,9 @@
+# Clean page URLs (atshades.com/roller-shades, /sun-study, ...).
+# Any path that is not a real file or folder is answered by index.html,
+# which reads the address and shows the right page.
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

@@ -60,9 +60,9 @@ function valid_email($e) { return (bool)filter_var($e, FILTER_VALIDATE_EMAIL); }
 
 function client_ip() { return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0'; }
 
-function rate_limit() {
-  $limit = (int)(cfg()['rate_limit_per_hour'] ?? 12);
-  $f = data_dir() . '/ratelimit.json';
+function rate_limit($bucket = 'forms', $limit = null) {
+  $limit = $limit ?? (int)(cfg()['rate_limit_per_hour'] ?? 12);
+  $f = data_dir() . '/ratelimit-' . preg_replace('/[^a-z]/', '', $bucket) . '.json';
   $fh = fopen($f, 'c+');
   if (!$fh) return;
   flock($fh, LOCK_EX);
@@ -256,4 +256,25 @@ function build_ics($uid, $start, $minutes, $summary, $description, $organizer, $
     'STATUS:CONFIRMED', 'END:VEVENT', 'END:VCALENDAR',
   ];
   return implode("\r\n", array_filter($lines, fn($l) => $l !== null)) . "\r\n";
+}
+
+// ---------------------------------------------------------------- http -----
+
+function http_get_json($url, $headers = [], $timeout = 8) {
+  $ch = curl_init($url);
+  curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => $timeout, CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTPHEADER => array_merge(['Accept: application/json'], $headers),
+  ]);
+  $res = curl_exec($ch);
+  $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  return ($res !== false && $code >= 200 && $code < 300) ? json_decode($res, true) : null;
+}
+
+// Initial compass bearing from a to b, degrees clockwise from north.
+function bearing_deg($lat1, $lng1, $lat2, $lng2) {
+  $r = M_PI / 180;
+  $y = sin(($lng2 - $lng1) * $r) * cos($lat2 * $r);
+  $x = cos($lat1 * $r) * sin($lat2 * $r) - sin($lat1 * $r) * cos($lat2 * $r) * cos(($lng2 - $lng1) * $r);
+  return fmod(atan2($y, $x) / $r + 360, 360);
 }
