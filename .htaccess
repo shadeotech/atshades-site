@@ -3,6 +3,12 @@
 # which reads the address and shows the right page.
 RewriteEngine On
 RewriteBase /
+
+# One address per page: /sun-study/ → /sun-study
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
 RewriteCond %{REQUEST_URI} !^/api/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

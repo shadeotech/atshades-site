@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="./image-slot.js"></script>
+<script src="/image-slot.js"></script>
 <style>
   html, body { margin:0; padding:0; }
   body {
@@ -55,6 +55,16 @@
     0%   { transform:rotate(0deg) scale(0.2); opacity:0.95; }
     100% { transform:rotate(115deg) scale(11); opacity:0; }
   }
+
+  /* Phones: logo on its own row, menu beneath it, dropdown in one column. */
+  @media (max-width: 760px) {
+    header { flex-wrap: wrap !important; row-gap: 12px !important; }
+    header > div:first-child > div { width: 150px !important; height: 33px !important; }
+    header > nav { flex: 1 1 100% !important; justify-content: space-between !important; row-gap: 10px !important; }
+    header > nav > div:first-child { gap: 18px !important; }
+    header nav [style*="repeat(2"] { grid-template-columns: 1fr !important; width: calc(100vw - 40px); max-height: 70vh; overflow-y: auto; }
+    header nav [style*="repeat(2"] > div { border-right: 0 !important; }
+  }
 </style>
 </helmet>
 
@@ -79,10 +89,10 @@
   <header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px clamp(20px,4vw,56px);background:rgba(var(--bgrgb),0.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(var(--fgrgb),0.10);flex-wrap:wrap">
     <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:12px;cursor:pointer">
       <sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}">
-        <div style="width:207px;height:45px;background-image:url('assets/logo-gold-alpha.png');background-size:contain;background-position:left center;background-repeat:no-repeat"></div>
+        <div style="width:207px;height:45px;background-image:url('/assets/logo-gold-alpha.png');background-size:contain;background-position:left center;background-repeat:no-repeat"></div>
       </sc-if>
       <sc-if value="{{ isLight }}">
-        <div style="width:207px;height:45px;background-image:url('assets/logo-green-alpha.png');background-size:contain;background-position:left center;background-repeat:no-repeat"></div>
+        <div style="width:207px;height:45px;background-image:url('/assets/logo-green-alpha.png');background-size:contain;background-position:left center;background-repeat:no-repeat"></div>
       </sc-if>
     </div>
     <nav style="display:flex;align-items:center;gap:clamp(14px,2vw,28px);flex-wrap:wrap;justify-content:flex-end;flex:1;min-width:0">
@@ -157,7 +167,7 @@
   <div>
     <section style="position:relative;min-height:clamp(540px,80vh,860px);display:flex;align-items:flex-end;overflow:hidden">
       <div style="position:absolute;inset:0">
-        <image-slot id="as-hero" src="images/hero.webp" shape="rect" placeholder="Hero — light through a roller shade, low key"></image-slot>
+        <image-slot id="as-hero" src="/images/hero.webp" shape="rect" placeholder="Hero — light through a roller shade, low key"></image-slot>
       </div>
       <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(var(--bgrgb),0.74) 0%,rgba(var(--bgrgb),0.46) 40%,rgba(var(--bgrgb),0.96) 100%);pointer-events:none"></div>
       <div style="position:relative;width:100%;max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,96px) clamp(20px,4vw,56px);pointer-events:none">
@@ -239,7 +249,7 @@
           <div onClick="{{ goZip }}" style="display:inline-block;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-accent);background:var(--gold);padding:16px 28px;cursor:pointer" style-hover="background:var(--fg);color:var(--bg)">Explore Zip Track</div>
         </div>
         <div style="height:clamp(300px,42vw,520px);position:relative">
-          <image-slot id="as-zip-feature" src="images/zip-feature.webp" shape="rect" placeholder="Zip track over a patio at golden hour"></image-slot>
+          <image-slot id="as-zip-feature" src="/images/zip-feature.webp" shape="rect" placeholder="Zip track over a patio at golden hour"></image-slot>
         </div>
       </div>
     </section>
@@ -250,13 +260,13 @@
         <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(34px,4.6vw,62px);line-height:1.06;margin:0 0 clamp(32px,5vw,52px)">Homes, and the rooms<br><em style="font-weight:300">that never close.</em></h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
           <div onClick="{{ goSpaces }}" style="border:1px solid rgba(var(--fgrgb),0.14);padding:30px;cursor:pointer;display:flex;flex-direction:column;gap:16px" style-hover="border:1px solid var(--gold)">
-            <div style="height:170px;position:relative"><image-slot id="as-commercial" src="images/commercial.webp" shape="rect" placeholder="Office floor, low-key daylight"></image-slot></div>
+            <div style="height:170px;position:relative"><image-slot id="as-commercial" src="/images/commercial.webp" shape="rect" placeholder="Office floor, low-key daylight"></image-slot></div>
             <h3 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:28px;margin:0">Commercial</h3>
             <p style="font-size:14px;line-height:1.7;color:rgba(var(--fgrgb),0.64);margin:0">Glare control at desk height, unified sightlines across an elevation, and motor groups that speak to the building system. Specified, scheduled, and installed floor by floor.</p>
             <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">Commercial program →</div>
           </div>
           <div onClick="{{ goHospitality }}" style="border:1px solid rgba(var(--fgrgb),0.14);padding:30px;cursor:pointer;display:flex;flex-direction:column;gap:16px" style-hover="border:1px solid var(--gold)">
-            <div style="height:170px;position:relative"><image-slot id="as-hospitality" src="images/hospitality.webp" shape="rect" placeholder="Hotel guestroom at dusk, lamp glow"></image-slot></div>
+            <div style="height:170px;position:relative"><image-slot id="as-hospitality" src="/images/hospitality.webp" shape="rect" placeholder="Hotel guestroom at dusk, lamp glow"></image-slot></div>
             <h3 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:28px;margin:0">Hospitality</h3>
             <p style="font-size:14px;line-height:1.7;color:rgba(var(--fgrgb),0.64);margin:0">True blackout for guestrooms, sheer-and-blackout pairs on one headrail, and terrace screens that survive a season of weather. Rolled out room type by room type.</p>
             <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">Hospitality program →</div>
@@ -419,7 +429,7 @@
     <section style="padding:clamp(24px,3vw,40px) clamp(20px,4vw,56px) clamp(52px,7vw,92px)">
       <div style="max-width:1240px;margin:0 auto">
         <div style="height:clamp(240px,34vw,420px);position:relative;margin-bottom:clamp(36px,5vw,60px)">
-          <image-slot id="as-spaces-hero" src="images/spaces-hero.webp" shape="rect" placeholder="Project photo — lobby or guestroom"></image-slot>
+          <image-slot id="as-spaces-hero" src="/images/spaces-hero.webp" shape="rect" placeholder="Project photo — lobby or guestroom"></image-slot>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(28px,4vw,56px);margin-bottom:clamp(36px,5vw,68px)">
           <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(30px,4vw,54px);line-height:1.08;margin:0">{{ space.h }}</h2>
@@ -482,7 +492,7 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,48px);align-items:center">
           <div>
             <div style="position:relative;height:clamp(200px,26vw,300px);border:1px solid rgba(var(--fgrgb),0.2);overflow:hidden;background:linear-gradient(180deg,#D6BE8B 0%,#BFA877 45%,#6E5B2E 100%)">
-              <div style="position:absolute;left:0;right:0;top:0;background-color:var(--shade-panel);background-image:url('images/roller-1.webp');background-size:cover;background-position:center bottom;height:{{ shadeHeight }};transition:height 420ms cubic-bezier(.4,0,.2,1);border-bottom:2px solid var(--gold);box-shadow:0 6px 14px rgba(0,0,0,0.25)"></div>
+              <div style="position:absolute;left:0;right:0;top:0;background-color:var(--shade-panel);background-image:url('/images/roller-1.webp');background-size:cover;background-position:center bottom;height:{{ shadeHeight }};transition:height 420ms cubic-bezier(.4,0,.2,1);border-bottom:2px solid var(--gold);box-shadow:0 6px 14px rgba(0,0,0,0.25)"></div>
               <div style="position:absolute;left:14px;bottom:12px;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(var(--bgrgb),0.75)">Live position preview</div>
             </div>
             <input type="range" min="4" max="22" step="1" value="{{ hour }}" onChange="{{ onHour }}" onInput="{{ onHour }}" style="width:100%;margin-top:18px;accent-color:var(--gold)">
@@ -577,7 +587,7 @@
               <div style="position:absolute;inset:0">{{ streetImg }}</div>
             </sc-if>
             <sc-if value="{{ slotStreetView }}" hint-placeholder-val="{{ true }}">
-              <image-slot id="as-sun-house" src="images/house.webp" shape="rect" placeholder="Drop a street-view photo of the house here"></image-slot>
+              <image-slot id="as-sun-house" src="/images/house.webp" shape="rect" placeholder="Drop a street-view photo of the house here"></image-slot>
             </sc-if>
             <div style="position:absolute;inset:0;background:#0A1410;opacity:{{ duskOpacity }};transition:opacity 300ms ease;pointer-events:none"></div>
             <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(191,168,119,0.44),rgba(191,168,119,0) 62%);opacity:{{ frontGlow }};transition:opacity 300ms ease;pointer-events:none"></div>
@@ -700,7 +710,7 @@
       <div style="max-width:1240px;margin:0 auto;border:1px solid rgba(var(--fgrgb),0.16);padding:clamp(24px,4vw,44px)">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,48px);align-items:center">
           <div style="position:relative;height:clamp(220px,28vw,340px);border:1px solid rgba(var(--fgrgb),0.18);overflow:hidden">
-            <image-slot id="as-fabric-view" src="images/fabric-view.webp" shape="rect" placeholder="View out a window — sits behind the fabric preview"></image-slot>
+            <image-slot id="as-fabric-view" src="/images/fabric-view.webp" shape="rect" placeholder="View out a window — sits behind the fabric preview"></image-slot>
             <div style="position:absolute;inset:0;background:#0A1A0C;opacity:{{ fabricOpacity }};transition:opacity 300ms ease;pointer-events:none"></div>
             <div style="position:absolute;left:16px;top:16px;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);pointer-events:none">{{ fabric.label }}</div>
           </div>
@@ -837,7 +847,7 @@
         <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px">About At Shades</div>
         <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(40px,6vw,84px);line-height:1;margin:0 0 24px;letter-spacing:-0.015em">A trade, run<br><em style="font-weight:300">like a workshop.</em></h1>
         <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2vw,25px);line-height:1.55;color:rgba(var(--fgrgb),0.78);max-width:660px;margin:0 0 40px;text-wrap:pretty">At Shades is a franchise of local window-covering specialists working from one catalogue, one fabrication standard, and one installation checklist. Your measure, your fabric, your motor — made to order and fitted by the people who quoted it.</p>
-        <div style="height:clamp(240px,32vw,400px);position:relative;margin-bottom:clamp(36px,5vw,60px)"><image-slot id="as-about" src="images/about.webp" shape="rect" placeholder="Workshop or install crew — hands, no faces"></image-slot></div>
+        <div style="height:clamp(240px,32vw,400px);position:relative;margin-bottom:clamp(36px,5vw,60px)"><image-slot id="as-about" src="/images/about.webp" shape="rect" placeholder="Workshop or install crew — hands, no faces"></image-slot></div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:rgba(var(--fgrgb),0.12);border:1px solid rgba(var(--fgrgb),0.12)">
           <sc-for list="{{ aboutCards }}" as="c" hint-placeholder-count="4">
             <div style="background:var(--bg);padding:28px 24px;display:flex;flex-direction:column;gap:10px">
@@ -888,9 +898,9 @@
             </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0">
-            <div style="height:clamp(150px,20vw,240px);position:relative;min-width:0;overflow:hidden"><image-slot id="as-about-2" src="images/about-2.webp" shape="rect" placeholder="Measuring a reveal — tape, notebook"></image-slot></div>
-            <div style="height:clamp(150px,20vw,240px);position:relative;min-width:0;overflow:hidden"><image-slot id="as-about-3" src="images/about-3.webp" shape="rect" placeholder="Fabric being cut on the bench"></image-slot></div>
-            <div style="height:clamp(150px,20vw,240px);position:relative;grid-column:span 2;min-width:0;overflow:hidden"><image-slot id="as-about-4" src="images/about-4.webp" shape="rect" placeholder="Finished install — wide shot of a room"></image-slot></div>
+            <div style="height:clamp(150px,20vw,240px);position:relative;min-width:0;overflow:hidden"><image-slot id="as-about-2" src="/images/about-2.webp" shape="rect" placeholder="Measuring a reveal — tape, notebook"></image-slot></div>
+            <div style="height:clamp(150px,20vw,240px);position:relative;min-width:0;overflow:hidden"><image-slot id="as-about-3" src="/images/about-3.webp" shape="rect" placeholder="Fabric being cut on the bench"></image-slot></div>
+            <div style="height:clamp(150px,20vw,240px);position:relative;grid-column:span 2;min-width:0;overflow:hidden"><image-slot id="as-about-4" src="/images/about-4.webp" shape="rect" placeholder="Finished install — wide shot of a room"></image-slot></div>
           </div>
         </div>
       </div>
@@ -1329,10 +1339,10 @@
     <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:36px">
       <div>
         <sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}">
-          <div style="width:198px;height:43px;margin-bottom:16px;background-image:url('assets/logo-gold-alpha.png');background-size:contain;background-position:left center;background-repeat:no-repeat"></div>
+          <div style="width:198px;height:43px;margin-bottom:16px;background-image:url('/assets/logo-gold-alpha.png');background-size:contain;background-position:left center;background-repeat:no-repeat"></div>
         </sc-if>
         <sc-if value="{{ isLight }}">
-          <div style="width:198px;height:43px;margin-bottom:16px;background-image:url('assets/logo-green-alpha.png');background-size:contain;background-position:left center;background-repeat:no-repeat"></div>
+          <div style="width:198px;height:43px;margin-bottom:16px;background-image:url('/assets/logo-green-alpha.png');background-size:contain;background-position:left center;background-repeat:no-repeat"></div>
         </sc-if>
         <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:rgba(var(--fgrgb),0.6);margin:0">Custom window treatments &amp; screens.</p>
       </div>
@@ -1561,13 +1571,13 @@ class Component extends DCLogic {
   componentWillUnmount() { clearTimeout(this._burstT); if (typeof window !== 'undefined') window.removeEventListener('popstate', this.onPopState); }
 
   IMGS = {
-    roller:['images/roller-1.webp','images/roller-2.webp'],
-    duo:['images/duo-1.webp','images/duo-2.webp'],
-    tri:['images/tri-1.webp','images/tri-2.webp'],
-    uni:['images/uni-1.webp','images/uni-2.webp'],
-    roman:['images/roman-1.webp','images/roman-2.webp'],
-    zip:['images/zip-1.webp','images/zip-2.webp'],
-    wire:['images/wire-1.webp','images/wire-2.webp']
+    roller:['/images/roller-1.webp','/images/roller-2.webp'],
+    duo:['/images/duo-1.webp','/images/duo-2.webp'],
+    tri:['/images/tri-1.webp','/images/tri-2.webp'],
+    uni:['/images/uni-1.webp','/images/uni-2.webp'],
+    roman:['/images/roman-1.webp','/images/roman-2.webp'],
+    zip:['/images/zip-1.webp','/images/zip-2.webp'],
+    wire:['/images/wire-1.webp','/images/wire-2.webp']
   };
 
   PRODUCTS = [
